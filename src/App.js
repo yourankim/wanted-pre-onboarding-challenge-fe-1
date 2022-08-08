@@ -3,8 +3,13 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Signup from './signup';
 import Login from './login';
 import Todos from './todos';
+import axiosInstance from './axiosInstance';
 
 function App() {
+  const token = localStorage.getItem('token');
+  if (token) {
+    axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  }
   return (
     <Router>
       <Routes>

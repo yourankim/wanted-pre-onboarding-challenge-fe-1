@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axiosInstance from './axiosInstance';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,10 +12,7 @@ function Signup() {
   const signup = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        'http://localhost:8080/users/create',
-        formData
-      );
+      const response = await axiosInstance.post('users/create', formData);
       alert(response.data.message);
       navigate('/login');
     } catch (error) {
