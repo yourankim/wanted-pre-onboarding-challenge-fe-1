@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 
 function TodoDetail({ onCreateTodo }) {
-  const [formData, setFormData] = useState();
-  const handleChanged = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
-  };
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
 
   function handleSubmit(e) {
     e.preventDefault();
-    onCreateTodo(formData);
+    onCreateTodo({ title, content });
+    setTitle('');
+    setContent('');
   }
 
   return (
@@ -17,10 +17,14 @@ function TodoDetail({ onCreateTodo }) {
         <input
           id='title'
           type='text'
+          value={title}
           placeholder='title'
-          onChange={handleChanged}></input>
-        <textarea id='content' onChange={handleChanged}></textarea>
-        <button>등록</button>
+          onChange={(e) => setTitle(e.target.value)}></input>
+        <textarea
+          id='content'
+          value={content}
+          onChange={(e) => setContent(e.target.value)}></textarea>
+        <button>추가</button>
       </form>
     </div>
   );
