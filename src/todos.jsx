@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from './axiosInstance';
+import TodoList from './todoList';
 import TodoDetail from './todoDetail';
 
 function Todos() {
@@ -14,17 +15,24 @@ function Todos() {
     getTodos();
   }, []);
 
+  const createTodo = async (newTodo) => {
+    try {
+      const response = await axiosInstance.post('todos/', newTodo);
+      console.log(response.data);
+    } catch (error) {
+      alert(error);
+      const { data } = error.response;
+      alert(data.details);
+    }
+  };
+
   return (
     <>
       <section>
-        <ul>
-          {!todos || todos.length === 0
-            ? 'no todos!'
-            : todos.map((todo) => <li key={todo.id}>{todo.title}</li>)}
-        </ul>
+        <TodoList todos={todos} />
       </section>
       <section>
-        <TodoDetail />
+        <TodoDetail onCreateTodo={createTodo} />
       </section>
     </>
   );

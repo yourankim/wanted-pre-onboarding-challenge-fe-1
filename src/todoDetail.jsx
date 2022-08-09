@@ -1,27 +1,19 @@
 import React, { useState } from 'react';
-import axiosInstance from './axiosInstance';
 
-function TodoDetail() {
+function TodoDetail({ onCreateTodo }) {
   const [formData, setFormData] = useState();
   const handleChanged = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  const createTodo = async (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
-    try {
-      const response = await axiosInstance.post('todos/', formData);
-      alert(response.data.message);
-    } catch (error) {
-      alert(error);
-      const { data } = error.response;
-      alert(data.details);
-    }
-  };
+    onCreateTodo(formData);
+  }
 
   return (
     <div>
-      <form onSubmit={createTodo}>
+      <form onSubmit={handleSubmit}>
         <input
           id='title'
           type='text'
