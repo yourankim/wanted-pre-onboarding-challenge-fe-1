@@ -1,34 +1,16 @@
 import React, { useState } from 'react';
-import NewTodo from './newTodo';
 
-function TodoDetail({ onUpdateTodo, todo }) {
-  const [title, setTitle] = useState(todo ? todo.title : '');
-  const [content, setContent] = useState(todo ? todo.content : '');
-  console.log(todo);
-  function handleSubmit(e) {
-    e.preventDefault();
-    onUpdateTodo({ id: todo.id, title, content });
-    setTitle('');
-    setContent('');
-  }
+function TodoDetail({ todo, onModifyButtonClick }) {
+  console.log('TodoDetail');
 
-  return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <input
-          id='title'
-          type='text'
-          value={title}
-          placeholder='title'
-          onChange={(e) => setTitle(e.target.value)}></input>
-        <textarea
-          id='content'
-          value={content}
-          onChange={(e) => setContent(e.target.value)}></textarea>
-        <button>제출</button>
-      </form>
-      <button>취소</button>
-    </>
+  return todo == null ? (
+    <p>할 일을 선택하면 상세 내용을 볼 수 있습니다.</p>
+  ) : (
+    <div>
+      <h3>{todo.title}</h3>
+      <pre>{todo.content}</pre>
+      <button onClick={onModifyButtonClick}>수정</button>
+    </div>
   );
 }
 

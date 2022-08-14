@@ -3,10 +3,13 @@ import axiosInstance from './axiosInstance';
 import TodoList from './todoList';
 import NewTodo from './newTodo';
 import TodoDetail from './todoDetail';
+import TodoEditor from './todoEditor';
 
 function Todos() {
+  console.log('Todos');
   const [todos, setTodos] = useState([]);
   const [selectedTodo, setSelectedTodo] = useState();
+  const [isEditMode, setIsEditMode] = useState(false);
 
   const getTodos = async () => {
     const response = await axiosInstance.get('todos');
@@ -28,10 +31,6 @@ function Todos() {
     }
   };
 
-  const showTodoDetail = (selectedTodo) => {
-    setSelectedTodo(selectedTodo);
-  };
-
   const updateTodo = async (modifiedTodo) => {
     try {
       const response = await axiosInstance.put(
@@ -49,11 +48,25 @@ function Todos() {
   return (
     <>
       <section>
-        <TodoList todos={todos} onSelectTodo={showTodoDetail} />
+        <TodoList
+          todos={todos}
+          onSelectTodo={(selectedTodo) => setSelectedTodo(selectedTodo)}
+        />
       </section>
       <section>
         <NewTodo onCreateTodo={createTodo}></NewTodo>
-        <TodoDetail todo={selectedTodo} />
+        {isEditMode ? (
+          <TodoEditor
+            todo={selectedTodo}
+            onCancelButtonClick={() => setIsEditMode(false)}
+            onUpdateTodo={updateTodo}
+          />
+        ) : (
+          <TodoDetail
+            todo={selectedTodo}
+            onModifyButtonClick={() => setIsEditMode(true)}
+          />
+        )}
       </section>
     </>
   );
