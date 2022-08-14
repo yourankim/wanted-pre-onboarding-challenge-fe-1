@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
+import NewTodo from './newTodo';
 
-function TodoDetail({ onCreateTodo }) {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-
+function TodoDetail({ onUpdateTodo, todo }) {
+  const [title, setTitle] = useState(todo ? todo.title : '');
+  const [content, setContent] = useState(todo ? todo.content : '');
+  console.log(todo);
   function handleSubmit(e) {
     e.preventDefault();
-    onCreateTodo({ title, content });
+    onUpdateTodo({ id: todo.id, title, content });
     setTitle('');
     setContent('');
   }
 
   return (
-    <div>
+    <>
       <form onSubmit={handleSubmit}>
         <input
           id='title'
@@ -24,9 +25,10 @@ function TodoDetail({ onCreateTodo }) {
           id='content'
           value={content}
           onChange={(e) => setContent(e.target.value)}></textarea>
-        <button>추가</button>
+        <button>제출</button>
       </form>
-    </div>
+      <button>취소</button>
+    </>
   );
 }
 
