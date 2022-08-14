@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 function TodoEditor({ todo, onCancelButtonClick, onUpdateTodo }) {
-  console.log('TodoEditor');
-  const [title, setTitle] = useState(todo.title);
-  const [content, setContent] = useState(todo.content);
+  console.log('TodoEditor', todo);
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+
+  useEffect(() => {
+    setTitle(todo.title);
+    setContent(todo.content);
+  }, [todo]);
+
   function handleSubmit(e) {
     e.preventDefault();
     onUpdateTodo({ id: todo.id, title, content });

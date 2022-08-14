@@ -12,8 +12,16 @@ function Todos() {
   const [isEditMode, setIsEditMode] = useState(false);
 
   const getTodos = async () => {
-    const response = await axiosInstance.get('todos');
-    setTodos([...response.data.data]);
+    try {
+      const response = await axiosInstance.get('todos');
+      const { data } = response.data;
+      setTodos([...data]);
+      if (selectedTodo) {
+        setSelectedTodo(data.find((todo) => todo.id === selectedTodo.id));
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -38,6 +46,7 @@ function Todos() {
         modifiedTodo
       );
       getTodos();
+      setIsEditMode(false);
     } catch (error) {
       alert(error);
       const { data } = error.response;
@@ -50,7 +59,7 @@ function Todos() {
       <section>
         <TodoList
           todos={todos}
-          onSelectTodo={(selectedTodo) => setSelectedTodo(selectedTodo)}
+          onSelectTodo={(todo) => setSelectedTodo(todo)}
         />
       </section>
       <section>

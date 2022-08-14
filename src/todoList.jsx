@@ -7,7 +7,7 @@ function TodoList({ todos, onSelectTodo }) {
       {!todos || todos.length === 0
         ? 'no todos!'
         : todos.map((todo) => (
-            <li key={todo.id} onClick={(e) => onSelectTodo(todo.id)}>
+            <li key={todo.id} onClick={() => onSelectTodo(todo)}>
               {todo.title}
             </li>
           ))}
