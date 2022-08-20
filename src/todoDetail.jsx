@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function TodoDetail({ todo, onModifyButtonClick }) {
+function TodoDetail({ todo, onModifyButtonClick, onDeleteTodo }) {
   console.log('TodoDetail');
 
   return todo == null ? (
@@ -10,6 +10,7 @@ function TodoDetail({ todo, onModifyButtonClick }) {
       <h3>{todo.title}</h3>
       <pre>{todo.content}</pre>
       <button onClick={onModifyButtonClick}>수정</button>
+      <button onClick={onDeleteTodo}>삭제</button>
     </div>
   );
 }

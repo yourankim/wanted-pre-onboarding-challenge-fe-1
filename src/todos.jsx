@@ -54,6 +54,18 @@ function Todos() {
     }
   };
 
+  const deleteTodo = async () => {
+    try {
+      const response = await axiosInstance.delete(`todos/${selectedTodo.id}`);
+      getTodos();
+      setIsEditMode(false);
+    } catch (error) {
+      alert(error);
+      const { data } = error.response;
+      alert(data.details);
+    }
+  };
+
   return (
     <>
       <section>
@@ -74,6 +86,7 @@ function Todos() {
           <TodoDetail
             todo={selectedTodo}
             onModifyButtonClick={() => setIsEditMode(true)}
+            onDeleteTodo={deleteTodo}
           />
         )}
       </section>
