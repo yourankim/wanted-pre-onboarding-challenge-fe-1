@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import axiosInstance from './axiosInstance';
 import TodoList from './todoList';
 import NewTodo from './newTodo';
@@ -7,17 +8,19 @@ import TodoEditor from './todoEditor';
 
 function Todos() {
   console.log('Todos');
+  const currentTodoId = useParams().id;
   const [todos, setTodos] = useState([]);
   const [selectedTodo, setSelectedTodo] = useState();
   const [isEditMode, setIsEditMode] = useState(false);
 
   const getTodos = async () => {
+    console.log('getTodos');
     try {
       const response = await axiosInstance.get('todos');
       const { data } = response.data;
       setTodos([...data]);
-      if (selectedTodo) {
-        setSelectedTodo(data.find((todo) => todo.id === selectedTodo.id));
+      if (currentTodoId) {
+        setSelectedTodo(data.find((todo) => todo.id === currentTodoId));
       }
     } catch (error) {
       console.log(error);
@@ -27,6 +30,10 @@ function Todos() {
   useEffect(() => {
     getTodos();
   }, []);
+
+  useEffect(() => {
+    setSelectedTodo(todos.find((todo) => todo.id === currentTodoId));
+  }, [currentTodoId]);
 
   const createTodo = async (newTodo) => {
     try {
