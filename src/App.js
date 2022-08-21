@@ -4,6 +4,8 @@ import Signup from './signup';
 import Login from './login';
 import Todos from './todos';
 import axiosInstance from './axiosInstance';
+import RequireAuth from './RequireAuth';
+import PathAuth from './passAuth';
 
 function App() {
   const token = localStorage.getItem('token');
@@ -13,10 +15,31 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<Todos />} />
-        <Route path='/todo/:id' element={<Todos />} />
+        <Route
+          path='/'
+          element={
+            <RequireAuth>
+              <Todos />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path='/todo/:id'
+          element={
+            <RequireAuth>
+              <Todos />
+            </RequireAuth>
+          }
+        />
         <Route path='/signup' element={<Signup />} />
-        <Route path='/login' element={<Login />} />
+        <Route
+          path='/login'
+          element={
+            <PathAuth>
+              <Login />
+            </PathAuth>
+          }
+        />
       </Routes>
     </Router>
   );
